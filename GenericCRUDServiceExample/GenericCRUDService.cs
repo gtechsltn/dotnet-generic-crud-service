@@ -1,14 +1,15 @@
-using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq.Expressions;
 
 namespace GenericCRUDServiceExample;
 
 public interface IGenericCRUDService<TModel, TDto>
 {
     Task<IEnumerable<TDto>> GetAll(Expression<Func<TModel, bool>>? where = null, params string[] includes);
+
     Task<TDto?> GetById(Expression<Func<TModel, bool>> predicateToGetId, params string[] includes);
+
     Task<TDto> Add(TDto dto, params Expression<Func<TModel, object>>[] references);
 
     Task<TDto> Update(TDto dto, Expression<Func<TModel, bool>>? where = null,
@@ -53,7 +54,6 @@ public class GenericCRUDService<TModel, TDto> : IGenericCRUDService<TModel, TDto
         return entity == null ? null : _mapper.Map<TDto>(entity);
     }
 
-
     public async Task<TDto> Add(TDto dto, params Expression<Func<TModel, object>>[] references)
     {
         var entity = _mapper.Map<TModel>(dto);
@@ -80,7 +80,6 @@ public class GenericCRUDService<TModel, TDto> : IGenericCRUDService<TModel, TDto
         await LoadReferences(entity, references);
         await _dbContext.SaveChangesAsync();
         return _mapper.Map<TDto>(entity);
-
     }
 
     public async Task<bool> Delete(IGuid id)

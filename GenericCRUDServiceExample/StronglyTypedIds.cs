@@ -20,4 +20,3 @@ public partial struct HeroId : IGuid
         return new HeroId(guid);
     }
 }
-

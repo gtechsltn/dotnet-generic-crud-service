@@ -22,8 +22,6 @@ public class ApplicationDbContext : DbContext, IContext
     {
         _configuration = configuration;
     }
-    
-    
 
     public DbSet<Hero> Heroes { get; set; } = null!;
 
